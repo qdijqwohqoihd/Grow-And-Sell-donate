@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grow and Sell | Донат Шакелей</title>
+
+  <style>
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            /* Темно-синяя с фиолетовым (тема по умолчанию) */
+            --text-color: #ffffff;
+            --button-color: #6c63ff;
+            --background-color: #0d1117;
+            --container-bg: #161b22;
+            --tab-inactive: #21262d;
+            --tab-active: #161b22;
+            --border-color: #30363d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --accent-color: #8a2be2;
+            --card-bg: #1c2128;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--container-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        /* Theme Selector */
+        .theme-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .theme-btn {
+            background: var(--button-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--container-bg);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 5px;
+            display: none;
+            min-width: 180px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .theme-dropdown.show {
+            display: block;
+        }
+        
+        .theme-option {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px 0;
+            transition: background 0.3s;
+        }
+        
+        .theme-option:hover {
+            background: var(--tab-inactive);
+        }
+        
+        /* Header */
+        .header {
+            background-color: var(--container-bg);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--button-color);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        
+        .logo-text span {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            background-color: var(--tab-inactive);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 18px 10px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-color);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: var(--border-color);
+        }
+        
+        .tab.active {
+            background-color: var(--tab-active);
+            border-bottom: 3px solid var(--button-color);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Support Tab */
+        .support-content {
+            text-align: center;
+        }
+        
+        .support-icon {
+            font-size: 4rem;
+            color: var(--button-color);
+            margin-bottom: 25px;
+        }
+        
+        .support-text {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #aaa;
+        }
+        
+        .support-link {
+            display: inline-block;
+            background-color: var(--button-color);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .support-link:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Donate Tab */
+        .donate-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 10px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        .amount-input {
+            width: 100%;
+            padding: 18px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--button-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature i {
+            color: var(--button-color);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .feature span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .exchange-rate {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .exchange-rate h3 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .rate-value {
+            font-size: 1.5rem;
+            color: var(--button-color);
+            font-weight: 600;
+        }
+        
+        .card-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid var(--border-color);
+            text-align: center;
+        }
+        
+        .card-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--button-color);
+            letter-spacing: 2px;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--button-color);
+        }
+        
+        .copy-btn {
+            background: var(--button-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--accent-color);
+            transform: scale(1.05);
+        }
+        
+        .instructions {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--button-color);
+        }
+        
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: var(--button-color);
+        }
+        
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .instruction-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step-number {
+            background: var(--button-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            color: #aaa;
+            line-height: 1.5;
+        }
+        
+        .donate-button {
+            background-color: var(--button-color);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .donate-button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Channel Tab */
+        .channel-content {
+            text-align: center;
+        }
+        
+        .channel-icon {
+            font-size: 4rem;
+            color: var(--button-color);
+            margin-bottom: 25px;
+        }
+        
+        .channel-text {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #aaa;
+        }
+        
+        .channel-link {
+            display: inline-block;
+            background-color: var(--button-color);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .channel-link:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid var(--border-color);
+        }
+        
+        .modal h2 {
+            color: var(--button-color);
+            margin-bottom: 20px;
+        }
+        
+        .modal-text {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .modal-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn.primary {
+            background: var(--button-color);
+            color: white;
+        }
+        
+        .modal-btn.secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-selector {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .card-number {
+                font-size: 1.2rem;
+                padding: 12px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+        
+        /* Themes */
+        .theme-dark-blue {
+            --text-color: #ffffff;
+            --button-color: #6c63ff;
+            --background-color: #0d1117;
+            --container-bg: #161b22;
+            --tab-inactive: #21262d;
+            --tab-active: #161b22;
+            --border-color: #30363d;
+            --accent-color: #8a2be2;
+            --card-bg: #1c2128;
+        }
+        
+        .theme-light {
+            --text-color: #333333;
+            --button-color: #4CAF50;
+            --background-color: #f5f5f5;
+            --container-bg: #ffffff;
+            --tab-inactive: #eeeeee;
+            --tab-active: #ffffff;
+            --border-color: #dddddd;
+            --accent-color: #2196F3;
+            --card-bg: #fafafa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-dark {
+            --text-color: #ffffff;
+            --button-color: #FF5722;
+            --background-color: #121212;
+            --container-bg: #1e1e1e;
+            --tab-inactive: #2d2d2d;
+            --tab-active: #1e1e1e;
+            --border-color: #404040;
+            --accent-color: #FF9800;
+            --card-bg: #252525;
+        }
+        
+        /* Input validation styles */
+        .amount-input.valid {
+            border-color: var(--button-color);
+        }
+        
+        .amount-input.invalid {
+            border-color: #f44336;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+  </style>
+
+  
+</head>
+<body>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <button class="theme-btn" onclick="toggleThemeDropdown()">
+            <i class="fas fa-palette"></i> Тема
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+            <div class="theme-option" onclick="changeTheme('theme-dark-blue')">
+                <i class="fas fa-moon"></i> Темно-синяя
+            </div>
+            <div class="theme-option" onclick="changeTheme('theme-light')">
+                <i class="fas fa-sun"></i> Светлая
+            </div>
+            <div class="theme-option" onclick="changeTheme('theme-dark')">
+                <i class="fas fa-star"></i> Темная
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Grow and Sell</h1>
+                    <span>Донат Шакелей</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(0)">
+                <i class="fas fa-headset"></i> Поддержка
+            </div>
+            <div class="tab" onclick="switchTab(1)">
+                <i class="fas fa-donate"></i> Донат
+            </div>
+            <div class="tab" onclick="switchTab(2)">
+                <i class="fab fa-telegram"></i> Канал
+            </div>
+        </div>
+        
+        <!-- Tab 1: Support -->
+        <div class="tab-content active" id="tab1">
+            <div class="support-content">
+                <div class="support-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h2>Техническая поддержка</h2>
+                <p class="support-text">
+                    Для подтверждения оплаты или при возникновении вопросов,<br>
+                    напишите нам в Telegram с прикрепленным скриншотом оплаты.
+                </p>
+                <a href="https://t.me/pavelrunetov" target="_blank" class="support-link">
+                    <i class="fab fa-telegram"></i> @pavelrunetov
+                </a>
+                <div style="margin-top: 40px; padding: 20px; background: var(--card-bg); border-radius: 10px;">
+                    <h3><i class="fas fa-info-circle"></i> Важная информация:</h3>
+                    <p style="margin-top: 10px; color: #aaa;">
+                        После оплаты обязательно отправьте скриншот чека<br>
+                        для подтверждения транзакции
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 2: Donate -->
+        <div class="tab-content" id="tab2">
+            <div class="donate-content">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    <i class="fas fa-coins"></i> Донат Шакелей
+                </h2>
+                
+                <form class="donate-form" id="donateForm">
+                    <div class="input-group">
+                        <label for="amount">
+                            <i class="fas fa-edit"></i> Введите сумму от 100 до 1,000,000,000 шакелей
+                        </label>
+                        <input 
+                            type="number" 
+                            id="amount" 
+                            class="amount-input"
+                            placeholder="Например: 10000"
+                            min="100"
+                            max="1000000000"
+                            required
+                        >
+                        <div class="error-message" id="amountError">
+                            Пожалуйста, введите сумму от 100 до 1,000,000,000
+                        </div>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Быстрая доставка</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>Качественно</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Удобно</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Безопасно</span>
+                        </div>
+                    </div>
+                    
+                    <div class="exchange-rate">
+                        <h3><i class="fas fa-chart-line"></i> Текущий курс</h3>
+                        <div class="rate-value">1000 шакелей = 0.25$</div>
+                    </div>
+                    
+                    <div class="calculation" style="padding: 20px; background: var(--card-bg); border-radius: 10px;">
+                        <h3 style="margin-bottom: 15px;"><i class="fas fa-calculator"></i> Ваш расчет:</h3>
+                        <div id="calculationResult" style="font-size: 1.1rem;">
+                            Введите сумму для расчета
+                        </div>
+                    </div>
+                    
+                    <div class="card-info">
+                        <h3><i class="fas fa-credit-card"></i> Реквизиты для оплаты</h3>
+                        <div class="card-number" id="cardNumber">
+                            5614 6812 1418 0048
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copyCardNumber()">
+                            <i class="fas fa-copy"></i> Копировать номер карты
+                        </button>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3><i class="fas fa-list-ol"></i> Инструкция по покупке:</h3>
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Оплатите на карту указанную выше и скиньте скриншот оплаты в поддержку @pavelrunetov</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Ожидайте подтверждения платежа администратором</div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">После подтверждения ожидайте получения шакелей (максимум 24 часа)</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="donate-button">
+                        <i class="fas fa-paper-plane"></i> Отправить донат
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Channel -->
+        <div class="tab-content" id="tab3">
+            <div class="channel-content">
+                <div class="channel-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <h2>Telegram Канал</h2>
+                <p class="channel-text">
+                    Подпишитесь на наш официальный Telegram канал<br>
+                    для получения информации и обновлений
+                </p>
+                <a href="https://t.me/GrowAndSelltg" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> @GrowAndSelltg
+                </a>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Grow and Sell | Донат платформа</p>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal" id="donateModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-check-circle"></i> Донат оформлен</h2>
+            <p class="modal-text">
+                Спасибо за оформление доната!<br><br>
+                <strong>Следующие шаги:</strong><br>
+                1. Оплатите <span id="modalAmount">0</span> шакелей на карту 5614 6812 1418 0048<br>
+                2. Сделайте скриншот платежа<br>
+                3. Отправьте скриншот в поддержку @pavelrunetov<br>
+                4. Ожидайте подтверждения и получения шакелей
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-btn primary" onclick="openSupport()">
+                    <i class="fab fa-telegram"></i> Перейти в поддержку
+                </button>
+                <button class="modal-btn secondary" onclick="closeModal()">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+
+  <script>
+    // Tab switching functionality
+        function switchTab(tabIndex) {
+            // Update tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, index) => {
+                if (index === tabIndex) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach((content, index) => {
+                if (index === tabIndex) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+        
+        // Theme functionality
+        function toggleThemeDropdown() {
+            const dropdown = document.getElementById('themeDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        function changeTheme(themeName) {
+            document.body.className = themeName;
+            toggleThemeDropdown();
+            localStorage.setItem('selectedTheme', themeName);
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            document.body.className = savedTheme;
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('themeDropdown');
+            const themeBtn = document.querySelector('.theme-btn');
+            
+            if (!themeBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Amount input validation and calculation
+        const amountInput = document.getElementById('amount');
+        const amountError = document.getElementById('amountError');
+        const calculationResult = document.getElementById('calculationResult');
+        const donateForm = document.getElementById('donateForm');
+        const donateModal = document.getElementById('donateModal');
+        
+        // Курс: 1000 шакелей = 0.25$
+        const SHAKE_TO_USD = 0.00025; // 1 шакель = 0.00025 USD
+        
+        function validateAmount(amount) {
+            if (amount < 100 || amount > 1000000000) {
+                amountInput.classList.add('invalid');
+                amountInput.classList.remove('valid');
+                amountError.classList.add('show');
+                return false;
+            } else {
+                amountInput.classList.remove('invalid');
+                amountInput.classList.add('valid');
+                amountError.classList.remove('show');
+                return true;
+            }
+        }
+        
+        function calculateResult(shakeAmount) {
+            const usdAmount = shakeAmount * SHAKE_TO_USD;
+            
+            return `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div style="text-align: left;">
+                        <strong>Шакелей:</strong>
+                    </div>
+                    <div style="text-align: right; color: var(--button-color);">
+                        ${shakeAmount.toLocaleString('ru-RU')}
+                    </div>
+                    
+                    <div style="text-align: left;">
+                        <strong>Сумма в USD:</strong>
+                    </div>
+                    <div style="text-align: right; color: var(--button-color); font-weight: bold;">
+                        $${usdAmount.toFixed(2)}
+                    </div>
+                    
+                    <div style="text-align: left;">
+                        <strong>Курс:</strong>
+                    </div>
+                    <div style="text-align: right;">
+                        1000 шак. = $0.25
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Copy card number functionality
+        function copyCardNumber() {
+            const cardNumber = document.getElementById('cardNumber').textContent;
+            navigator.clipboard.writeText(cardNumber.replace(/\s/g, ''))
+                .then(() => {
+                    const copyBtn = document.querySelector('.copy-btn');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                    copyBtn.style.background = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                        copyBtn.style.background = '';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Ошибка копирования: ', err);
+                });
+        }
+        
+        // Modal functionality
+        function showModal(shakeAmount) {
+            document.getElementById('modalAmount').textContent = shakeAmount.toLocaleString('ru-RU');
+            donateModal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            donateModal.style.display = 'none';
+        }
+        
+        function openSupport() {
+            window.open('https://t.me/pavelrunetov', '_blank');
+            closeModal();
+        }
+        
+        // Event listeners
+        amountInput.addEventListener('input', function() {
+            const amount = parseInt(this.value) || 0;
+            
+            if (validateAmount(amount)) {
+                calculationResult.innerHTML = calculateResult(amount);
+            } else {
+                calculationResult.innerHTML = 'Введите сумму от 100 до 1,000,000,000';
+            }
+        });
+        
+        donateForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const amount = parseInt(amountInput.value) || 0;
+            
+            if (validateAmount(amount)) {
+                // Show confirmation modal
+                showModal(amount);
+                
+                // Don't reset form, keep data for user reference
+            }
+        });
+        
+        // Close modal when clicking outside
+        donateModal.addEventListener('click', function(e) {
+            if (e.target === donateModal) {
+                closeModal();
+            }
+        });
+        
+        // Initialize with sample calculation
+        amountInput.value = '10000';
+        validateAmount(10000);
+        calculationResult.innerHTML = calculateResult(10000);
+        
+        // Add smooth animation for tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Add click effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape closes modal
+            if (e.key === 'Escape') {
+                closeModal();
+                const dropdown = document.getElementById('themeDropdown');
+                dropdown.classList.remove('show');
+            }
+            
+            // Ctrl+1,2,3 for tabs
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        switchTab(0);
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        switchTab(1);
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        switchTab(2);
+                        break;
+                }
+            }
+        });
+        
+        // Add animation to features
+        document.querySelectorAll('.feature').forEach((feature, index) => {
+            feature.style.animationDelay = `${index * 0.1}s`;
+        });
+  </script>
+</body>
+</html>
